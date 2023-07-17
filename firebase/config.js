@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp, getApps } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -16,9 +16,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp =
+  getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-export const auth = getAuth();
+export const auth = getAuth(firebaseApp);
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
